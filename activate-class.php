@@ -137,6 +137,223 @@ class cc_activate {
 		return $record;
 	}
 	
+	/**
+	 *  Function performs a full sync on node
+	 *  Params: device_name(string), blank returns all devices
+	 *  Returns: Array, "errors", "result", "info" 
+	 */
+	public function configuration_device_full_sync($name, $args = array()){
+		$record = $this->query_put("config/device/{$name}?action=full-sync-data", $args);
+		$http_code = $this->get_status_code($record->info);
+		
+		if($http_code != 200){
+			$record->error = "Invalid http response: ".$http_code;
+		}
+		
+		return $record;
+	}
+	
+/*****************************************************************************************************************************
+ ** DEVICE ACTIONS   DEVICE ACTIONS   DEVICE ACTIONS   DEVICE ACTIONS   DEVICE ACTIONS   DEVICE ACTIONS   DEVICE ACTIONS  ****
+ ****************************************************************************************************************************/
+ 
+ 	/**
+	 *  Function reboots a device
+	 *  Params: $arugment array
+	 *  Returns: Array, "errors", "result", "info" 
+	 */
+	public function device_action_reboot($name, $arguments = array()){
+		$record = $this->query_put("device-action/reboot?deviceName={$name}", json_encode($arguments, JSON_PRETTY_PRINT));
+		$http_code = $this->get_status_code($record->info);
+		
+		if($http_code != 200){
+			$record->error = "Invalid http response: ".$http_code;
+		}
+		
+		return $record;
+	}
+	
+/*****************************************************************************************************************************
+ ** CONFIGURING EMS   CONFIGURING EMS   CONFIGURING EMS   CONFIGURING EMS   CONFIGURING EMS   CONFIGURING EMS             ****
+ ****************************************************************************************************************************/ 
+ 
+	/**
+	 *  Function pull device groups
+	 *  Params: $arugment array
+	 *  Returns: Array, "errors", "result", "info" 
+	 */
+	public function configuration_device_group_retrieve($args = array()){
+		$record = $this->query_get("activate/deviceGroup", $args);
+		$http_code = $this->get_status_code($record->info);
+		
+		if($http_code != 200){
+			$record->error = "Invalid http response: ".$http_code;
+		}
+		
+		return $record;
+	}
+	
+	/**
+	 *  Function pull ems service
+	 *  Params: $arugment array
+	 *  Returns: Array, "errors", "result", "info" 
+	 */
+	public function configuration_ems_service_retrieve($name ,$args = array()){
+		$record = $this->query_get("ems/eth-service/".$name, $args);
+		$http_code = $this->get_status_code($record->info);
+		
+		if($http_code != 200){
+			$record->error = "Invalid http response: ".$http_code;
+		}
+		
+		return $record;
+	}
+	
+	/**
+	 *  Function put ems service state
+	 *  Params: $arugment array
+	 *  Returns: Array, "errors", "result", "info" 
+	 */
+	public function configuration_ems_service_state($name ,$args = array()){
+		$record = $this->query_put("ems/eth-service/".$name, $args);
+		$http_code = $this->get_status_code($record->info);
+		
+		if($http_code != 200){
+			$record->error = "Invalid http response: ".$http_code;
+		}
+		
+		return $record;
+	}
+	
+	/**
+	 *  Function pull ems service
+	 *  Params: $arugment array
+	 *  Returns: Array, "errors", "result", "info" 
+	 */
+	public function configuration_ems_service_remove($name ,$args = array()){
+		$record = $this->query_delete("ems/eth-service/".$name, $args);
+		$http_code = $this->get_status_code($record->info);
+		
+		if($http_code != 200){
+			$record->error = "Invalid http response: ".$http_code;
+		}
+		
+		return $record;
+	}
+	
+	/**
+	 *  Function creates ems service
+	 *  Params: $arugment array
+	 *  Returns: Array, "errors", "result", "info" 
+	 */
+	public function configuration_ems_service_create($name ,$args = array()){
+		$record = $this->query_post("ems/eth-service/".$name, json_encode($args, JSON_PRETTY_PRINT));
+		$http_code = $this->get_status_code($record->info);
+		
+		if($http_code != 200){
+			$record->error = "Invalid http response: ".$http_code;
+		}
+		
+		return $record;
+	}
+	
+	/**
+	 *  Function pull port config
+	 *  Params: $arugment array
+	 *  Returns: Array, "errors", "result", "info" 
+	 */
+	public function configuration_ems_port_config_retrieve($name ,$args = array()){
+		$record = $this->query_get("ems/port-config/".$name, $args);
+		$http_code = $this->get_status_code($record->info);
+		
+		if($http_code != 200){
+			$record->error = "Invalid http response: ".$http_code;
+		}
+		
+		return $record;
+	}
+	
+	/**
+	 *  Function create port config
+	 *  Params: $arugment array
+	 *  Returns: Array, "errors", "result", "info" 
+	 */
+	public function configuration_ems_port_config_create($name ,$args = array()){
+		$record = $this->query_post("ems/port-config/".$name, json_encode($args, JSON_PRETTY_PRINT));
+		$http_code = $this->get_status_code($record->info);
+		
+		if($http_code != 200){
+			$record->error = "Invalid http response: ".$http_code;
+		}
+		
+		return $record;
+	}
+	
+	/**
+	 *  Function pull service template
+	 *  Params: $arugment array
+	 *  Returns: Array, "errors", "result", "info" 
+	 */
+	public function configuration_ems_service_template_retrieve($name ,$args = array()){
+		$record = $this->query_get("ems/service-template/".$name, $args);
+		$http_code = $this->get_status_code($record->info);
+		
+		if($http_code != 200){
+			$record->error = "Invalid http response: ".$http_code;
+		}
+		
+		return $record;
+	}
+ 
+	/**
+	 *  Function pulls a subscriber record
+	 *  Params: $arugment array
+	 *  Returns: Array, "errors", "result", "info" 
+	 */
+	public function configuration_customer_retrieve($name, $args = array()){
+		$record = $this->query_get("ems/subscriber/".$name, $args);
+		$http_code = $this->get_status_code($record->info);
+		
+		if($http_code != 200){
+			$record->error = "Invalid http response: ".$http_code;
+		}
+		
+		return $record;
+	}
+
+
+	/**
+	 *  Function pulls a subscriber record
+	 *  Params: $arugment array
+	 *  Returns: Array, "errors", "result", "info" 
+	 */
+	public function configuration_customer_retrieve_gui($name, $args = array()){
+		$record = $this->query_get("ems/gui/view/subscriber/".$name, $args);
+		$http_code = $this->get_status_code($record->info);
+		
+		if($http_code != 200){
+			$record->error = "Invalid http response: ".$http_code;
+		}
+		
+		return $record;
+	}
+	
+	/**
+	 *  Function create subscriber
+	 *  Params: $arugment array
+	 *  Returns: Array, "errors", "result", "info" 
+	 */
+	public function configuration_customer_create($name ,$args = array()){
+		$record = $this->query_post("ems/subscriber/".$name, json_encode($args, JSON_PRETTY_PRINT));
+		$http_code = $this->get_status_code($record->info);
+		
+		if($http_code != 200){
+			$record->error = "Invalid http response: ".$http_code;
+		}
+		
+		return $record;
+	}
+	
 /*****************************************************************************************************************************
  ** MANAGING FAULTS   MANAGING FAULTS   MANAGING FAULTS   MANAGING FAULTS   MANAGING FAULTS   MANAGING FAULTS             ****
  ****************************************************************************************************************************/ 
